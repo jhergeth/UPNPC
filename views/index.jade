@@ -1,0 +1,12 @@
+extends layout
+
+
+block content
+    div
+        h1= title + " by Joachim Hergeth"
+        p Welcome to #{title}
+        | Nothing here
+        | {{' ' + 'yet' + '!'}}
+
+    div(ng-view)
+

@@ -1,0 +1,11 @@
+//    Created by joachim on 20.06.2015.
+
+extends layout
+
+block content
+
+   p User:
+   ul
+      each user in users
+         li #{user.FirstName} #{user.LastName}
+            p(style="margin-left:5px")=user.Phone

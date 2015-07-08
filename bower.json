@@ -1,0 +1,13 @@
+{
+  "name": "UPNPC",
+  "version": "0.0.0",
+  "description": "UPnP Controler",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

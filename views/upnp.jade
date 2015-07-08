@@ -1,0 +1,100 @@
+//
+   Created by joachim on 04.07.2015.
+
+extends layout
+
+block head
+    link(rel="stylesheet" , href="/stylesheets/ui.fancytree.min.css")
+    script(src="/javascripts/jquery.fancytree-all.min.js")
+    script(type='text/javascript').
+        $(function(){$('#tree').fancytree({
+            activeVisible:  true, // Make sure, active nodes are visible (expanded).
+            aria:           false, // Enable WAI-ARIA support.
+            autoActivate:   true, // Automatically activate a node when it is focused (using keys).
+            autoCollapse:   true, // Automatically collapse all siblings, when a node is expanded.
+            autoScroll:     true, // Automatically scroll nodes into visible area.
+            clickFolderMode:4, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+            checkbox:       false, // Show checkboxes.
+            debugLevel:     2, // 0:quiet, 1:normal, 2:debug
+            disabled:       false, // Disable control
+            focusOnSelect:  false, // Set focus when node is checked by a mouse click
+            generateIds:    false, // Generate id attributes like <span id='fancytree-id-KEY'>
+            idPrefix:       "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
+            icons:          true, // Display node icons.
+            keyboard:       true, // Support keyboard navigation.
+            keyPathSeparator:"/", // Used by node.getKeyPath() and tree.loadKeyPath().
+            minExpandLevel: 1, // 1: root node is not collapsible
+            quicksearch:    false, // Navigate to next node by typing the first letters.
+            selectMode:     2, // 1:single, 2:multi, 3:multi-hier
+            tabbable:       true, // Whole tree behaves as one single control
+            titlesTabbable: false, // Node titles can receive keyboard focus
+
+            activate: function (event, data) {
+                var node = data.node;
+                // Use <a> href and target attributes to load the content:
+                if (node.data.href) {
+                    // Open target
+                    window.open(node.data.href, node.data.target);
+                    // or open target in iframe
+                    //                $("[name=contentFrame]").attr("src", node.data.href);
+                }
+            }
+        })});
+
+block content
+    .container
+        h4
+            | #{serv}
+            each p in path
+                | &frasl; &nbsp;
+                #{s}
+            | to &nbsp;
+            | #{rend}
+
+        .btn-goup(role='group' aria-label='devsel')
+            button.btn.btn-default
+                a.glyphicon.glyphicon-search(href='/upnp?op=search') Search
+
+            .dropdown
+                button.btn.btn-default.dropdown-toggle(
+                        type='button'
+                        id='serverMenu'
+                        data-toggle='dropdown'
+                        aria-haspopup='true'
+                        aria-expanded='true'
+                    ) Server
+                    .caret
+
+                ul.dropdown-menu(aria-lablledby='serverMenu')
+                    each s in storage
+                        li
+                            a(href='/upnp?s=#{s}') #{s}
+
+            .dropdown
+                button.btn.btn-default.dropdown-toggle(
+                        type='button'
+                        id='rendererMenu'
+                        data-toggle='dropdown'
+                        aria-haspopup='true'
+                        aria-expanded='true'
+                    ) Renderer
+                    .caret
+
+                ul.dropdown-menu(aria-lablledby='rendererMenu')
+                    each r in renderer
+                        li
+                            a(href='/upnp?r=#{r}') #{r}
+
+        p Directory:
+        #tree
+            ul#treeData(style='display:none;')
+                if conts
+                    each d in conts
+                        li.folder
+                            a(href='/upnp?op=getdir&id=#{d.getIdSync()}' target='_self') #{d.getIdSync()} #{d.getTitleSync()}
+
+                if items
+                    each i in items
+                        li
+                            #{i.getIdSync()} #{i.getTitleSync()}
+
