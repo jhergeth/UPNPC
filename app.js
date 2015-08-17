@@ -41,7 +41,8 @@ app.use(session(sess));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/upnp', upnp);
-app.use('/json', upnp);
+app.use('/upnpstatus', upnp);
+//app.use('/json', upnp);
 
 //angular.module('upnp', []).
 //    config(['$routeProvider', '$locationProvider',

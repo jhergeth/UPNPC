@@ -10,6 +10,7 @@ html
     // Latest compiled and minified CSS & JS
     link(rel='stylesheet', media='screen', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
     link(rel="stylesheet", href="/stylesheets/jquery-ui.min.css")
+    link(rel="stylesheet", href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
 
     script(src='https://code.jquery.com/jquery-2.1.4.js')
     script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
@@ -26,13 +27,14 @@ html
         .container
           .navbar-header
             a.navbar-brand(href='/')
-              .glyphicon.glyphicon-th-large  Home
+              .fa.fa-home.fa-2x  Home
 
             a.navbar-brand(href='/users')
-              .glyphicon.glyphicon-user  Users
+              .fa.fa-users.fa-2x  Users
 
             a.navbar-brand(href='/upnp')
-              .glyphicon.glyphicon-list-alt  UPnP-Browser
+              .fa.fa-spinner.fa-pulse.fa-2x
+              | UPnP-Browser
 
       .alert.alert-dismissable
 

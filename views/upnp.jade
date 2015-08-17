@@ -6,6 +6,7 @@ extends layout
 block head
     link(rel="stylesheet" , href="/stylesheets/ui.fancytree.min.css")
     script(src="/javascripts/jquery.fancytree-all.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ui-contextmenu/1.10.0/jquery.ui-contextmenu.min.js")
     script(type='text/javascript').
         $(function(){$('#tree').fancytree({
             activeVisible:  true, // Make sure, active nodes are visible (expanded).
@@ -29,15 +30,45 @@ block head
             tabbable:       true, // Whole tree behaves as one single control
             titlesTabbable: false, // Node titles can receive keyboard focus
 
-            activate: function (event, data) {
+            source: {
+                url: "/upnp?op=getTreeData&id=0",
+                cache: false
+            },
+
+            lazyLoad: function(event, data){
                 var node = data.node;
-                // Use <a> href and target attributes to load the content:
-                if (node.data.href) {
-                    // Open target
-                    window.open(node.data.href, node.data.target);
-                    // or open target in iframe
-                    //                $("[name=contentFrame]").attr("src", node.data.href);
+                data.result = {
+                    url: "/upnp?op=getTreeData&id="+node.key,
+                    data: {key: node.key}
                 }
+            },
+
+            dblclick: function (event, data) {
+                var node = data.node;
+                if(node.folder ){
+                    $.get("/upnp?op=play&id="+node.key);
+                    return false;
+                }
+                return true;
+            }
+
+
+        })});
+    script(type='text/javascript').
+        $(function(){$("#Listen").contextmenu({
+            delegate: ".hasmenu",
+            menu: [
+                {title: "Render", cmd: "render", uiIcon: "ui-icon-copy"},
+                {title: "----"},
+                {
+                    title: "More", children: [
+                    {title: "Sub 1", cmd: "sub1"},
+                    {title: "Sub 2", cmd: "sub1"}
+                ]
+                }
+            ],
+            select: function (event, ui) {
+                alert("select " + ui.cmd + " on " + ui.target.text());
             }
         })});
 
@@ -48,7 +79,7 @@ block content
             each p in path
                 | &frasl; &nbsp;
                 #{s}
-            | to &nbsp;
+            | &nbsp; to &nbsp;
             | #{rend}
 
         .btn-goup(role='group' aria-label='devsel')
@@ -86,15 +117,17 @@ block content
                             a(href='/upnp?r=#{r}') #{r}
 
         p Directory:
-        #tree
-            ul#treeData(style='display:none;')
-                if conts
-                    each d in conts
-                        li.folder
-                            a(href='/upnp?op=getdir&id=#{d.getIdSync()}' target='_self') #{d.getIdSync()} #{d.getTitleSync()}
+        #Listen
+            #tree
+                ul#treeData(style='display:none;')
+                    if conts
+                        each d in conts
+                            li.folder.hasmemu
+                                a(href='/upnp?op=getdir&id=#{d.getIdSync()}' target='_self') [#{d.getIdSync()}] #{d.getTitleSync()}
 
-                if items
-                    each i in items
-                        li
-                            #{i.getIdSync()} #{i.getTitleSync()}
+                    if items
+                        each i in items
+                            li.hasmenu
+                                | [ #{i.getIdSync()} ] #{i.getTitleSync()}
+
 
