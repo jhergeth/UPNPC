@@ -10,12 +10,12 @@ var router = express.Router();
 var java = require("java");
 java.classpath.push("commons-lang3-3.1.jar");
 java.classpath.push("commons-io.jar");
-java.classpath.push("jars/mctrl.jar");
-java.classpath.push("jars/cling-core-2.0.1.jar");
-java.classpath.push("jars/seamless-http-1.1.0.jar");
-java.classpath.push("jars/seamless-util-1.1.0.jar");
-java.classpath.push("jars/seamless-xml-1.1.0.jar");
-java.classpath.push("jars/cling-support-2.0.1.jar");
+java.classpath.push("./jars/mctrl.jar");
+java.classpath.push("./jars/cling-core-2.0.1.jar");
+java.classpath.push("./jars/seamless-http-1.1.0.jar");
+java.classpath.push("./jars/seamless-util-1.1.0.jar");
+java.classpath.push("./jars/seamless-xml-1.1.0.jar");
+java.classpath.push("./jars/cling-support-2.0.1.jar");
 
 /**
  * start Java UPNP task
