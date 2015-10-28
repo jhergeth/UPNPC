@@ -22,7 +22,7 @@ java.classpath.push("./jars/cling-support-2.0.1.jar");
  */
 var Main = java.import('mctrl.Main');
 var theMain = null;
-java.callStaticMethod('mctrl.Main', 'startIt()Lmctrl/Main;', function(err, results) {
+java.callStaticMethod('mctrl.Main', 'startIt()Lmctrl/DLNACtrl;', function(err, results) {
     if(err) { console.error(err); return; }
     // results from doSomething
     theMain = results;
