@@ -166,6 +166,12 @@ router.get('/', function(req, res, next) {
         res.json(ans);
         return;
     }
+    else if( req.query.op == 'back'){
+        theMain.jumpBack();
+    }
+    else if( req.query.op == 'forward'){
+        theMain.jumpForward();
+    }
     else if(werte.serv){
         var srv = theMain.getDeviceSync(werte.serv, "ContentDirectory");
         var dirCont = theMain.getDirContentSync(srv, "0");

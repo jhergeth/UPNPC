@@ -20,7 +20,7 @@ block head
             disabled:       false, // Disable control
             focusOnSelect:  false, // Set focus when node is checked by a mouse click
             generateIds:    false, // Generate id attributes like <span id='fancytree-id-KEY'>
-            idPrefix:       "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
+            idPrefix:       "ft_", // Used to generate node idï¿½s like <span id='fancytree-id-<key>'>.
             icons:          true, // Display node icons.
             keyboard:       true, // Support keyboard navigation.
             keyPathSeparator:"/", // Used by node.getKeyPath() and tree.loadKeyPath().
@@ -76,10 +76,7 @@ block content
     .container
         h4
             | #{serv}
-            each p in path
-                | &frasl; &nbsp;
-                #{s}
-            | &nbsp; to &nbsp;
+            | &frasl; &nbsp;
             | #{rend}
 
         .btn-goup(role='group' aria-label='devsel')
@@ -115,6 +112,14 @@ block content
                     each r in renderer
                         li
                             a(href='/upnp?r=#{r}') #{r}
+
+        .navbar.navbar-default
+            div.navbar-brand(onclick='$.get("/upnp?op=back")')
+                .fa.fa-backward  Back
+
+            div.navbar-brand(onclick='$.get("/upnp?op=forward")')
+                .fa.fa-forward  Forward
+
 
         p Directory:
         #Listen
