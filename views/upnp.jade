@@ -77,51 +77,58 @@ block content
         h4
             | #{serv}
             | &frasl; &nbsp;
-            | #{rend}
+            | #{rend} &nbsp;&nbsp;
+            | #{restTime} &nbsp;&nbsp;
+            | #{currFile}
 
-        .btn-goup(role='group' aria-label='devsel')
-            button.btn.btn-default
-                a.glyphicon.glyphicon-search(href='/upnp?op=search') Search
+        .sidebar
+            #Bild
+                img(src='#{currPath}')
 
+        .main-content
             .dropdown
-                button.btn.btn-default.dropdown-toggle(
-                        type='button'
-                        id='serverMenu'
-                        data-toggle='dropdown'
-                        aria-haspopup='true'
-                        aria-expanded='true'
-                    ) Server
-                    .caret
+                .btn-group(role='group' aria-label='devsearch')
+                    button.btn.btn-default(type='button')
+                        a.glyphicon.glyphicon-search(href='/upnp?op=search')
 
-                ul.dropdown-menu(aria-lablledby='serverMenu')
-                    each s in storage
-                        li
-                            a(href='/upnp?s=#{s}') #{s}
+                    .btn-group.open()
+                        .btn-group(role='group' aria-label='devsel')
+                            button.btn.btn-default.dropdown-toggle(
+                                type='button'
+                                id='serverMenu'
+                                data-toggle='dropdown'
+                                aria-haspopup='true'
+                                aria-expanded='false'
+                            ) Server
+                                span.caret
+                            ul.dropdown-menu(aria-labelledby='serverMenu')
+                                each s in storage
+                                    li
+                                        a(href='/upnp?s=#{s}') #{s}
 
-            .dropdown
-                button.btn.btn-default.dropdown-toggle(
-                        type='button'
-                        id='rendererMenu'
-                        data-toggle='dropdown'
-                        aria-haspopup='true'
-                        aria-expanded='true'
-                    ) Renderer
-                    .caret
+                        .btn-group(role='group' aria-label='devsel2')
+                            button.btn.btn-default.dropdown-toggle(
+                                type='button'
+                                id='rendererMenu'
+                                data-toggle='dropdown'
+                                aria-haspopup='true'
+                                aria-expanded='false'
+                            ) Renderer
+                                span.caret
+                            ul.dropdown-menu(aria-labelledby='rendererMenu')
+                                each r in renderer
+                                    li
+                                        a(href='/upnp?r=#{r}') #{r}
 
-                ul.dropdown-menu(aria-lablledby='rendererMenu')
-                    each r in renderer
-                        li
-                            a(href='/upnp?r=#{r}') #{r}
+            .navbar.navbar-default
+                div.navbar-brand(onclick='$.get("/upnp?op=back")')
+                    .fa.fa-backward  Back
 
-        .navbar.navbar-default
-            div.navbar-brand(onclick='$.get("/upnp?op=back")')
-                .fa.fa-backward  Back
-
-            div.navbar-brand(onclick='$.get("/upnp?op=forward")')
-                .fa.fa-forward  Forward
+                div.navbar-brand(onclick='$.get("/upnp?op=forward")')
+                    .fa.fa-forward  Forward
 
 
-        p Directory:
+    p Directory:
         #Listen
             #tree
                 ul#treeData(style='display:none;')
@@ -134,5 +141,4 @@ block content
                         each i in items
                             li.hasmenu
                                 | [ #{i.getIdSync()} ] #{i.getTitleSync()}
-
 

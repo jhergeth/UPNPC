@@ -22,10 +22,19 @@ java.classpath.push("./jars/cling-support-2.0.1.jar");
  */
 var Main = java.import('mctrl.Main');
 var theMain = null;
+
+var dirs = null;
+var files = null;
+var restTime = 0;
+var currFile = "";
+var status = null;
+var currPath = null;
+
 java.callStaticMethod('mctrl.Main', 'startIt()Lmctrl/DLNACtrl;', function(err, results) {
     if(err) { console.error(err); return; }
     // results from doSomething
     theMain = results;
+//    setInterval(fetchStatus, 1000);
 });
 
 function getArray(a){
@@ -77,6 +86,30 @@ function traverse(werte, id){
     }
     return r;
 }
+function fetchStatus() {
+    if(theMain){
+        status = theMain.getStatusSync();
+        restTime = status.getRestSync();
+        currFile = status.getItemTitleSync();
+        currPath = status.getItemPathSync();
+        console.info("STATUS: "+status+" Resttime:"+restTime+" File:"+currFile + " Path:" + currPath);
+
+    }
+}
+
+
+function getDirContent(dirCont) {
+    dirs = dirCont.getDirsSync();
+    files = dirCont.getItemsSync();
+    dirCont.printDirsSync();
+    dirCont.printItemsSync();
+    if (dirs && dirs.length == 1 && dirs[0] == null) {
+        dirs = null;
+    }
+    if (files && files.length == 1 && files[0] == null) {
+        files = null;
+    }
+}
 
 /* GET upnp page. */
 router.get('/', function(req, res, next) {
@@ -98,21 +131,7 @@ router.get('/', function(req, res, next) {
     if(req.query.r)werte.rend = req.query.r;
     if(req.query.s)werte.serv = req.query.s;
 
-    var dirs = null;
-    var files = null;
-
-    function getDirContent() {
-        dirs = dirCont.getDirsSync();
-        files = dirCont.getItemsSync();
-        dirCont.printDirsSync();
-        dirCont.printItemsSync();
-        if (dirs && dirs.length == 1 && dirs[0] == null) {
-            dirs = null;
-        }
-        if (files && files.length == 1 && files[0] == null) {
-            files = null;
-        }
-    }
+    fetchStatus();
 
     if(req.query.op == 'getdir'){
         var srv = theMain.getDeviceSync(werte.serv, "ContentDirectory");
@@ -140,7 +159,7 @@ router.get('/', function(req, res, next) {
 
     }
     else if( req.query.op == 'getTreeData'){
-            var key = req.query.id;
+        var key = req.query.id;
         var ans = new Array();
 
         if( werte.serv && key){
@@ -172,6 +191,12 @@ router.get('/', function(req, res, next) {
     else if( req.query.op == 'forward'){
         theMain.jumpForward();
     }
+    else if( req.query.op == 'stop'){
+        theMain.stop();
+    }
+    else if( req.query.op == 'play'){
+        theMain.play();
+    }
     else if(werte.serv){
         var srv = theMain.getDeviceSync(werte.serv, "ContentDirectory");
         var dirCont = theMain.getDirContentSync(srv, "0");
@@ -192,6 +217,9 @@ router.get('/', function(req, res, next) {
         'renderer':rendererNames,
         'conts':dirs,
         'items':files,
+        'currPath':currPath,
+        'currFile':currFile,
+        'restTime':restTime,
         'path':["."],
 //        'dtree':werte.dTree,
         'title':'UPnP-Browser'

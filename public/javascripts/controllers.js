@@ -3,8 +3,15 @@
  */
 function UpnpCtrl($scope, $http) {
     $http.get('/upnpstatus').
-        success(function(data, status, headers, config) {
-            $scope.status = data.posts;
+        success(function(data, status, headers, config){
+            $scope.upnpStatus = data;
+            console.log(data);
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
         });
+
+
 }
+
 
