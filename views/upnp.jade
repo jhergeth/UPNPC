@@ -120,7 +120,7 @@ block content
                                     li
                                         a(href='/upnp?r=#{r}') #{r}
 
-            .navbar.navbar-default
+            .navbar.navbar-default.zeiger
                 div.navbar-brand(onclick='$.get("/upnp?op=back")')
                     .fa.fa-backward  Back
 
@@ -128,17 +128,17 @@ block content
                     .fa.fa-forward  Forward
 
 
-    p Directory:
-        #Listen
-            #tree
-                ul#treeData(style='display:none;')
-                    if conts
-                        each d in conts
-                            li.folder.hasmemu
-                                a(href='/upnp?op=getdir&id=#{d.getIdSync()}' target='_self') [#{d.getIdSync()}] #{d.getTitleSync()}
+            p Directory:
+                #Listen
+                    #tree
+                        ul#treeData(style='display:none;')
+                            if conts
+                                each d in conts
+                                    li.folder.hasmemu
+                                        a(href='/upnp?op=getdir&id=#{d.getIdSync()}' target='_self') [#{d.getIdSync()}] #{d.getTitleSync()}
 
-                    if items
-                        each i in items
-                            li.hasmenu
-                                | [ #{i.getIdSync()} ] #{i.getTitleSync()}
+                            if items
+                                each i in items
+                                    li.hasmenu
+                                        | [ #{i.getIdSync()} ] #{i.getTitleSync()}
 
