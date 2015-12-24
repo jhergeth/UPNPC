@@ -101,8 +101,8 @@ function fetchStatus() {
 function getDirContent(dirCont) {
     dirs = dirCont.getDirsSync();
     files = dirCont.getItemsSync();
-    dirCont.printDirsSync();
-    dirCont.printItemsSync();
+//    dirCont.printDirsSync();
+//    dirCont.printItemsSync();
     if (dirs && dirs.length == 1 && dirs[0] == null) {
         dirs = null;
     }
@@ -121,8 +121,8 @@ router.get('/', function(req, res, next) {
         return;
     }
 
-    var serverNames = theMain.getDeviceNamesSync("ContentDirectory");
-    var rendererNames = theMain.getDeviceNamesSync("AVTransport");
+    var serverNames = theMain.getServerArraySync();
+    var rendererNames = theMain.getRendererArraySync();
     var werte = req.session.werte;
     if (!werte) {
         werte = req.session.werte = {}
@@ -134,8 +134,8 @@ router.get('/', function(req, res, next) {
     fetchStatus();
 
     if(req.query.op == 'getdir'){
-        var srv = theMain.getDeviceSync(werte.serv, "ContentDirectory");
-        var dirCont = theMain.getDirContentSync(srv, req.query.id);
+        var srv = theMain.findVaultSync(werte.serv);
+        var dirCont = theMain.browseToSync(srv, req.query.id);
         if(dirCont){
             getDirContent(dirCont);
             werte.dTree[req.query.id] = new entry(dirs, files, req.query.id, dirCont.title);
@@ -172,8 +172,8 @@ router.get('/', function(req, res, next) {
                 };
             }
             else{
-                var srv = theMain.getDeviceSync(werte.serv, "ContentDirectory");
-                var dirCont = theMain.getDirContentSync(srv, req.query.id);
+                var srv = theMain.findVaultSync(werte.serv);
+                var dirCont = theMain.browseToSync(srv, req.query.id);
                 if(dirCont){
                     getDirContent(dirCont);
                     werte.dTree[req.query.id] = new entry(dirs, files, req.query.id, dirCont.title);
@@ -198,8 +198,8 @@ router.get('/', function(req, res, next) {
         theMain.play();
     }
     else if(werte.serv){
-        var srv = theMain.getDeviceSync(werte.serv, "ContentDirectory");
-        var dirCont = theMain.getDirContentSync(srv, "0");
+        var srv = theMain.findVaultSync(werte.serv);
+        var dirCont = theMain.browseToSync(srv, "0");
         if(dirCont){
             getDirContent(dirCont);
             werte.dTree = new Array();
