@@ -7,7 +7,7 @@
     "watch"       : true,
     "node_args"   : "",
     "merge_logs"  : true,
-    "cwd"         : "/UPNPC/bin",
+    "cwd"         : "/root/UPNPC/bin",
     "log_date_format"  : "YYYY-MM-DD HH:mm Z",
     "max_memory_restart": "256M", // 1 megabytes, e.g.: "2G", "10M", "100K", 1024 the default unit is byte.
     "env": {
