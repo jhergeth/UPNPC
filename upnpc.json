@@ -1,0 +1,24 @@
+{
+  "apps" : [{
+    // Application #1
+    "name"        : "upnpc",
+    "script"      : "www.js",
+    "args"        : [],
+    "watch"       : true,
+    "node_args"   : "",
+    "merge_logs"  : true,
+    "cwd"         : "/UPNPC/bin",
+    "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+    "max_memory_restart": "256M", // 1 megabytes, e.g.: "2G", "10M", "100K", 1024 the default unit is byte.
+    "env": {
+      "NODE_ENV": "development",
+    },
+    "env_production" : {
+      "NODE_ENV": "production"
+    },
+    "env_staging" : {
+      "NODE_ENV" : "staging",
+      "TEST"     : true
+    }
+  }]
+}
