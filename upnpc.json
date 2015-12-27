@@ -2,7 +2,7 @@
   "apps" : [{
     // Application #1
     "name"        : "upnpc",
-    "script"      : "www.js",
+    "script"      : "www",
     "args"        : [],
     "watch"       : true,
     "node_args"   : "",
