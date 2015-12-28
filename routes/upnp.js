@@ -29,6 +29,10 @@ var restTime = 0;
 var currFile = "";
 var status = null;
 var currPath = null;
+var timer = null;
+
+
+
 
 java.callStaticMethod('mctrl.Main', 'startIt()Lmctrl/DLNACtrl;', function(err, results) {
     if(err) { console.error(err); return; }
@@ -40,20 +44,43 @@ java.callStaticMethod('mctrl.Main', 'startIt()Lmctrl/DLNACtrl;', function(err, r
 function getArray(a){
     var r = new Array();
     if(a){
+        if (a.length == 1 && a[0] == null) {
+            return r;
+        }
+
         var c = 0;
         for(var i = 0; i < a.length; i++){
-            r[c++] = {"id": a[i].getIdSync(), "title": a[i].getTitleSync()};
+            r[c++] = {
+                "id": a[i].getIdSync(),
+                "title": a[i].getTitleSync(),
+                "icon": a[i].getFirstResourceSync().getValueSync()
+            };
         }
     }
 
     return r;
 }
-function entry(d, f, i, t ){
-    this.dirs = getArray(d);
-    this.files = getArray(f);
+
+function entry(dirCont, i ) {
     this.id = i;
     this.title = t;
     this.playlist = false;
+
+    this.dirs = getArray(dirCont.getDirsSync());
+    this.files = getArray(dirCont.getItemsSync());
+//    dirCont.printDirsSync();
+//    dirCont.printItemsSync();
+}
+
+function entry(dirCont, i, t ){
+    this.id = i;
+    this.title = t;
+    this.playlist = false;
+
+    this.dirs = getArray(dirCont.getDirsSync());
+    this.files = getArray(dirCont.getItemsSync());
+//    dirCont.printDirsSync();
+//    dirCont.printItemsSync();
 }
 
 function traverse(werte, id){
@@ -65,13 +92,15 @@ function traverse(werte, id){
         for(var i=0; i < e.dirs.length; i++){
             var dt = e.dirs[i].title;
             var dk = e.dirs[i].id;
+            var di = e.dirs[i].icon;
             r[idx++] = {
                 "title": dt,
                 "key": dk,
                 "folder":true,
                 "lazy":true,
                 "children":traverse(werte, dk),
-                "playlist": e.playList
+                "playlist": e.playList,
+                "icon": di
             };
         }
         for(var i = 0; i < e.files.length; i++){
@@ -87,28 +116,21 @@ function traverse(werte, id){
     return r;
 }
 function fetchStatus() {
+    var res = {};
     if(theMain){
         status = theMain.getStatusSync();
         restTime = status.getRestSync();
         currFile = status.getItemTitleSync();
         currPath = status.getItemPathSync();
         console.info("STATUS: "+status+" Resttime:"+restTime+" File:"+currFile + " Path:" + currPath);
-
+        res = {
+            "status": status,
+            "restTime": restTime,
+            "currFile": currFile,
+            "currPath": currPath
+        };
     }
-}
-
-
-function getDirContent(dirCont) {
-    dirs = dirCont.getDirsSync();
-    files = dirCont.getItemsSync();
-//    dirCont.printDirsSync();
-//    dirCont.printItemsSync();
-    if (dirs && dirs.length == 1 && dirs[0] == null) {
-        dirs = null;
-    }
-    if (files && files.length == 1 && files[0] == null) {
-        files = null;
-    }
+    return res;
 }
 
 /* GET upnp page. */
@@ -137,8 +159,7 @@ router.get('/', function(req, res, next) {
         var srv = theMain.findVaultSync(werte.serv);
         var dirCont = theMain.browseToSync(srv, req.query.id);
         if(dirCont){
-            getDirContent(dirCont);
-            werte.dTree[req.query.id] = new entry(dirs, files, req.query.id, dirCont.title);
+            werte.dTree[req.query.id] = new entry(dirCont, req.query.id );
         }
     }
     else if( req.query.op == 'play') {
@@ -175,8 +196,7 @@ router.get('/', function(req, res, next) {
                 var srv = theMain.findVaultSync(werte.serv);
                 var dirCont = theMain.browseToSync(srv, req.query.id);
                 if(dirCont){
-                    getDirContent(dirCont);
-                    werte.dTree[req.query.id] = new entry(dirs, files, req.query.id, dirCont.title);
+                    werte.dTree[req.query.id] = new entry(dirCont, req.query.id );
                 }
                 ans = traverse(werte,key);
             }
@@ -201,9 +221,8 @@ router.get('/', function(req, res, next) {
         var srv = theMain.findVaultSync(werte.serv);
         var dirCont = theMain.browseToSync(srv, "0");
         if(dirCont){
-            getDirContent(dirCont);
             werte.dTree = new Array();
-            werte.dTree["0"] = new entry(dirs, files, "0", werte.serv);
+            werte.dTree["0"] = new entry(dirCont, "0", werte.serv);
         }
     }
 
