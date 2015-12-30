@@ -167,7 +167,7 @@ router.get('/', function(req, res, next) {
 //        werte.playTitle = werte.dTree[werte.playKey].title;
 
         if( werte.rend && werte.serv && werte.playKey ) {
-            theMain.play(werte.rend, werte.serv, werte.playKey, 30 * 1000, function (err, result) {
+            theMain.play(werte.rend, werte.serv, werte.playKey, 100 * 1000, function (err, result) {
                 if (err) {
                     console.error(err);
                     return;
