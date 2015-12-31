@@ -118,7 +118,7 @@ function traverse(werte, id){
 function fetchStatus() {
     var res = {};
     if(theMain){
-        status = theMain.getStatusSync();
+        status = theMain.getJobSync();
         restTime = status.getRestSync();
         currFile = status.getItemTitleSync();
         currPath = status.getItemPathSync();
@@ -153,7 +153,7 @@ router.get('/', function(req, res, next) {
     if(req.query.r)werte.rend = req.query.r;
     if(req.query.s)werte.serv = req.query.s;
 
-    fetchStatus();
+//    fetchStatus();
 
     if(req.query.op == 'getdir'){
         var srv = theMain.findVaultSync(werte.serv);
