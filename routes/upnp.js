@@ -106,7 +106,8 @@ function traverse(werte, id){
         for(var i = 0; i < e.files.length; i++){
             r[idx++] = {
                 "title": e.files[i].title,
-                "key": e.files[i].id
+                "key": e.files[i].id,
+                "icon": e.files[i].icon
             };
         }
         if(e.dirs.length == 0 && e.files.length != 0 ) {
