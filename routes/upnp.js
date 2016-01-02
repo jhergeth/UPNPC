@@ -229,6 +229,7 @@ router.get('/', function(req, res, next) {
 
 
 //    var dir = dirs.dirs;
+    fetchStatus();
     res.render('upnp', {
         'serv':werte.serv,
         'rend':werte.rend,
