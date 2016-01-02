@@ -119,7 +119,7 @@ function fetchStatus() {
     var res = {};
     if(theMain){
         status = theMain.getJobSync();
-        if( status != null ){
+        if( status ){
             restTime = status.getRestSync();
             currFile = status.getItemTitleSync();
             currPath = status.getItemPathSync();
