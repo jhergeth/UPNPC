@@ -119,18 +119,21 @@ function fetchStatus() {
     var res = {};
     if(theMain){
         status = theMain.getJobSync();
-        restTime = status.getRestSync();
-        currFile = status.getItemTitleSync();
-        currPath = status.getItemPathSync();
-        console.info("STATUS: "+status+" Resttime:"+restTime+" File:"+currFile + " Path:" + currPath);
-        res = {
-            "status": status,
-            "restTime": restTime,
-            "currFile": currFile,
-            "currPath": currPath
-        };
+        if( status != null ){
+            restTime = status.getRestSync();
+            currFile = status.getItemTitleSync();
+            currPath = status.getItemPathSync();
+            console.info("STATUS: "+status+" Resttime:"+restTime+" File:"+currFile + " Path:" + currPath);
+            res = {
+                "status": status,
+                "restTime": restTime,
+                "currFile": currFile,
+                "currPath": currPath
+            };
+            return res;
+        }
     }
-    return res;
+    return null;
 }
 
 /* GET upnp page. */
