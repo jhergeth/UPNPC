@@ -1,0 +1,36 @@
+{
+  /**
+   * Application configuration section
+   * http://pm2.keymetrics.io/docs/usage/application-declaration/
+   */
+  apps : [
+
+    // First application
+    {
+      name      : "upnpc",
+      script    : "bin/www.js",
+      env: {
+        COMMON_VARIABLE: "true"
+      },
+      env_production : {
+        NODE_ENV: "production"
+      }
+    }
+
+  ],
+
+  /**
+   * Deployment section
+   * http://pm2.keymetrics.io/docs/usage/deployment/
+   */
+  deploy : {
+    production : {
+      user : "node",
+      host : "192.168.178.13",
+      ref  : "origin/master",
+      repo : "jhergeth@github.com:UPNPC.git",
+      path : "/var/www/upnpc",
+      "post-deploy" : "npm install ; pm2 startOrRestart ecosystem.json --env production"
+    }
+  }
+}
