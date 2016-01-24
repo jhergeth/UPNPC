@@ -8,7 +8,7 @@
     // First application
     {
       name      : "upnpc",
-      script    : "bin/www.js",
+      script    : "bin/www",
       env: {
         COMMON_VARIABLE: "true"
       },
@@ -25,12 +25,18 @@
    */
   deploy : {
     production : {
-      user : "node",
-      host : "192.168.178.13",
-      ref  : "origin/master",
-      repo : "jhergeth@github.com:UPNPC.git",
-      path : "/var/www/upnpc",
-      "post-deploy" : "npm install ; pm2 startOrRestart ecosystem.json --env production"
+		user : "node",
+		host : "192.168.178.13",
+		ref  : "origin/master",
+		repo : "jhergeth@github.com:UPNPC.git",
+        watch       : true,
+		node_args   : "",
+		merge_logs  : true,
+		log_date_format  : "YYYY-MM-DD HH:mm Z",
+		max_memory_restart: "256M", // 1 megabytes, e.g.: "2G", "10M", "100K", 1024 the default unit is byte.
+		path : "/var/www/upnpc",
+		"post-deploy" : "npm install ; pm2 startOrRestart ecosystem.json --env production"
+	  
     }
   }
 }
