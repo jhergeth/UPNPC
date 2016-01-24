@@ -8,7 +8,7 @@
     // First application
     {
       name      : "upnpc",
-      script    : "bin/www.js",
+      script    : "bin/www",
       env: {
         COMMON_VARIABLE: "true"
       },
