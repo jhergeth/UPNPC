@@ -1,16 +1,16 @@
-raspi-config
-sudo raspi-config
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install oracle-java8-jdk
-curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo apt-get install -y build-essential
-sudo apt-get install -y nodejs-legacy
-sudo npm install -g npm
-sudo apt-get install -y git
+apt-get update
+apt-get upgrade -y
+apt-get install -y apt-utils
+apt-get install -y curl
+curl -sL https://deb.nodesource.com/setup_4.x | bash -
+apt-get install -y nodejs
+apt-get install -y build-essential
+apt-get install -y nodejs-legacy
+npm install -g npm
+apt-get install -y oracle-java8-jdk
 GYP_DEFINES="armv7=0 javalibdir=/usr/lib/jvm/jdk-8-oracle-arm-vfp-hflt/jre/lib/arm/server" CCFLAGS='-march=armv6' CXXFLAGS='-march=armv6'  npm install -g java
-sudo npm install -g pm2
+apt-get install -y git
+npm install -g pm2
 pm2 install pm2-logrotate
 pm2 install pm2-webshell
 pm2 install pm2-auto-pull
