@@ -7,6 +7,11 @@ apt-get install -y nodejs
 apt-get install -y build-essential
 apt-get install -y nodejs-legacy
 npm install -g npm
+npm install -g express
+npm install -g express-session
+npm install -g serve-favicon
+npm install -g morgan
+
 apt-get install -y oracle-java8-jdk
 GYP_DEFINES="armv7=0 javalibdir=/usr/lib/jvm/jdk-8-oracle-arm-vfp-hflt/jre/lib/arm/server" CCFLAGS='-march=armv6' CXXFLAGS='-march=armv6'  npm install -g java
 apt-get install -y git

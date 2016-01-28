@@ -50,6 +50,13 @@ block head
                     return false;
                 }
                 return true;
+            },
+
+            select: function(event, data){
+                var node = data.node;
+                if(node.folder ){
+                    playlist = "/upnp?op=play&id="+node.key;
+                }
             }
 
 
@@ -127,6 +134,9 @@ block content
             .navbar.navbar-default.zeiger
                 div.navbar-brand(onclick='$.get("/upnp?op=back")')
                     .fa.fa-backward  Back
+
+                div.navbar-brand(onclick='$.get(#{playlist})')
+                    .fa.fa-tv  Go
 
                 div.navbar-brand(onclick='$.get("/upnp?op=forward")')
                     .fa.fa-forward  Forward
