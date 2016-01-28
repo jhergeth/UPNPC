@@ -166,6 +166,22 @@ router.get('/', function(req, res, next) {
             werte.dTree[req.query.id] = new entry(dirCont, req.query.id );
         }
     }
+    else if( req.query.op == 'store') {
+        werte.playKey = req.query.id;
+    }
+    else if( req.query.op == 'run') {
+        if( werte.rend && werte.serv && werte.playKey ) {
+            theMain.play(werte.rend, werte.serv, werte.playKey, 100 * 1000, function (err, result) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+            });
+        }
+        else{
+            console.error("No renderer or no server or no item (" + werte.rend + "|" + werte.serv + "|" + werte.playKey +")");
+        }
+    }
     else if( req.query.op == 'play') {
         werte.playKey = req.query.id;
 //        werte.playTitle = werte.dTree[werte.playKey].title;
@@ -217,9 +233,6 @@ router.get('/', function(req, res, next) {
     }
     else if( req.query.op == 'stop'){
         theMain.stop();
-    }
-    else if( req.query.op == 'play'){
-        theMain.play();
     }
     else if(werte.serv){
         var srv = theMain.findVaultSync(werte.serv);
