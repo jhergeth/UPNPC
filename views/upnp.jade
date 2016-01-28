@@ -52,7 +52,7 @@ block head
                 return true;
             },
 
-            select: function(event, data){
+            click: function(event, data){
                 var node = data.node;
                 if(node.folder ){
                     $.get("/upnp?op=store&id="+node.key);
