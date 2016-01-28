@@ -55,7 +55,7 @@ block head
             select: function(event, data){
                 var node = data.node;
                 if(node.folder ){
-                    playlist = "/upnp?op=play&id="+node.key;
+                    playlist: "/upnp?op=play&id="+node.key;
                 }
             }
 
@@ -89,12 +89,12 @@ block content
             | #{currFile}
 
         h2(ng-controller='statCtrl')
-            img(src='{{msg.currPath}}')
+            img(src='#{msg.currPath}#')
             | {{msg.currFile}} [ {{msg.restTime}} ]
 
         .sidebar
             #Bild
-                img(src='#{currPath}')
+                img(src='#{msg.currPath}')
 
         .main-content
             .dropdown
