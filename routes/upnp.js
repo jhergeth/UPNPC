@@ -124,12 +124,16 @@ function fetchStatus() {
             restTime = status.getRestSync();
             currFile = status.getItemTitleSync();
             currPath = status.getItemPathSync();
+            currServ = status.getServerSync();
+            currRend = status.getScreenSync();
             console.info("STATUS: "+status+" Resttime:"+restTime+" File:"+currFile + " Path:" + currPath);
             res = {
                 "status": status,
                 "restTime": restTime,
                 "currFile": currFile,
-                "currPath": currPath
+                "currPath": currPath,
+                "currServ": currServ,
+                "currRend": currRend
             };
             return res;
         }
@@ -246,21 +250,39 @@ router.get('/', function(req, res, next) {
 
 
 //    var dir = dirs.dirs;
-    fetchStatus();
-    res.render('upnp', {
-        'serv':werte.serv,
-        'rend':werte.rend,
-        'storage':serverNames,
-        'renderer':rendererNames,
-        'conts':dirs,
-        'items':files,
-        'currPath':currPath,
-        'currFile':currFile,
-        'restTime':restTime,
-        'path':["."],
+    var r = fetchStatus();
+    if(r != null){
+        res.render('upnp', {
+            'serv':r.currServ,
+            'rend': r.currRend,
+            'storage':serverNames,
+            'renderer':rendererNames,
+            'conts':dirs,
+            'items':files,
+            'currPath': r.currPath,
+            'currFile': r.currFile,
+            'restTime': r.restTime,
+            'path':["."],
 //        'dtree':werte.dTree,
-        'title':'UPnP-Browser'
-    });
+            'title':'UPnP-Browser'
+        });
+    }
+    else{
+        res.render('upnp', {
+            'serv':werte.serv,
+            'rend':werte.rend,
+            'storage':serverNames,
+            'renderer':rendererNames,
+            'conts':dirs,
+            'items':files,
+            'currPath':currPath,
+            'currFile':currFile,
+            'restTime':restTime,
+            'path':["."],
+//        'dtree':werte.dTree,
+            'title':'UPnP-Browser'
+        });
+    }
 //  next();
 });
 
