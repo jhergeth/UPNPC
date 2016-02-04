@@ -160,8 +160,13 @@ router.get('/', function(req, res, next) {
 
     if(req.query.r)werte.rend = req.query.r;
     if(req.query.s)werte.serv = req.query.s;
+    var r = fetchStatus();
+    if(r != null){
+        werte.rend = r.currRend;
+        werte.serv = r.currServ;
+    }
 
-//    fetchStatus();
+
 
     if(req.query.op == 'getdir'){
         var srv = theMain.findVaultSync(werte.serv);
@@ -250,7 +255,6 @@ router.get('/', function(req, res, next) {
 
 
 //    var dir = dirs.dirs;
-    var r = fetchStatus();
     if(r != null){
         res.render('upnp', {
             'serv':r.currServ,
