@@ -10,6 +10,7 @@ var session = require('express-session');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var upnp = require('./routes/upnp');
+var xfdf = require('./routes/xfdf');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use(session(sess));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/upnp', upnp);
+app.use('/xfdf', xfdf);
 
 //app.use('/json', upnp);
 
